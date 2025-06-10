@@ -18,14 +18,14 @@ window.addEventListener('click', playMusic); // This ensures it plays when the p
 
 // Change text and gif when the Yes button is clicked
 yesBtn.addEventListener("click", () => {
-  question.innerHTML = "Happy Valentines my bebu^^. Being with you is my biggest blessing. I love you so much lalove^-^ ";
+  question.innerHTML = "Happy Valentines. Being with you is my biggest blessing. I love you so much ";
   gif.src = "https://tenor.com/view/bubu-bubu-dudu-love-cute-panda-gif-10802104815768868113.gif";
 
   // Hide the No button
   noBtn.style.display = "none";
 
   const caption = document.createElement("p");
-  caption.innerHTML = "Meet me at 8 am on February 12 in front of WCC</b> ❤️";
+  caption.innerHTML = "</b> ❤️";
   caption.style.fontSize = "18px";
   caption.style.color = "blue";
   caption.style.marginTop = "15px";
