@@ -156,11 +156,16 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!isClaimed) {
                 div.addEventListener("click", () => {
                     localStorage.setItem(coupon.id, "true");
-                    showMessage(`You claimed: ${coupon.title}! 🎉\\n\\nScreenshot this and send it to me when you're ready to use it!`);
+                    showMessage(`You claimed: ${coupon.title}! 🎉\n\nScreenshot this and send it to me when you're ready to use it!`);
                     renderCoupons(); // Re-render to show stamp
                 });
             } else {
-                div.addEventListener("click", () => showMessage("You already claimed this one! 😊"));
+                div.addEventListener("click", () => {
+                    if (window.confirm(`Do you want to unclaim "${coupon.title}" and put it back in the book?`)) {
+                        localStorage.removeItem(coupon.id);
+                        renderCoupons(); 
+                    }
+                });
             }
             container.appendChild(div);
         });
@@ -233,7 +238,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }, 30); // Typing speed
         });
     }
-
     // --- FLOWER GARDEN ---
     function createGarden() {
         const garden = document.getElementById("flower-garden");
