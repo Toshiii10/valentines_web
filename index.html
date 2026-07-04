@@ -11,7 +11,6 @@
      <source src="yungkai-blue.mp3" type="audio/mpeg">
   </audio>
 
-  <!-- Initial Proposal Section -->
   <div class="wrapper" id="proposal-section">
     <h2 class="question">Will you be my valentines?</h2>
     <img class="gif" id="main-gif" alt="cute bear gif" src="https://tenor.com/view/dudu-wearing-glasses-standing-nice-cute-funny-bear-gif-3741906134197657056.gif" />
@@ -21,10 +20,8 @@
     </div>
   </div>
 
-  <!-- Unlocked Content (Hidden by default) -->
   <div id="unlocked-content" style="display: none;">
     
-    <!-- Feature 1: Digital Love Letter -->
     <section class="section love-letter">
       <div class="scroll-reveal">My Dearest,</div>
       <div class="scroll-reveal">From the moment you walked into my life, everything changed.</div>
@@ -35,65 +32,34 @@
 
     <hr class="divider">
 
-    <!-- Feature 2: Open When Envelopes -->
     <section class="section envelopes-section">
       <h2>"Open When..."</h2>
       <div class="envelope-grid">
-        <div class="envelope" onclick="openEnvelope('miss')">
-          <span>💌</span><p>You miss me</p>
-        </div>
-        <div class="envelope" onclick="openEnvelope('laugh')">
-          <span>💌</span><p>You need a laugh</p>
-        </div>
-        <div class="envelope" onclick="openEnvelope('sad')">
-          <span>💌</span><p>You feel sad</p>
-        </div>
+        <div class="envelope" data-mood="miss"><span>💌</span><p>You miss me</p></div>
+        <div class="envelope" data-mood="laugh"><span>💌</span><p>You need a laugh</p></div>
+        <div class="envelope" data-mood="sad"><span>💌</span><p>You feel sad</p></div>
       </div>
     </section>
 
     <hr class="divider">
 
-    <!-- Feature 3 & 4: Memory Timeline (Vault + Dated Photos) -->
     <section class="section timeline-section">
       <h2>Our Favorite Moments</h2>
-      <div class="timeline">
-        <!-- Timeline Item 1 -->
-        <div class="timeline-item scroll-reveal">
-          <div class="timeline-date">October 14, 2023</div>
-          <div class="timeline-content">
-            <img src="https://via.placeholder.com/300x200" alt="Memory 1">
-            <p>The day we went to that amazing cafe. I couldn't stop looking at you.</p>
-          </div>
+      <div class="timeline" id="timeline-container">
         </div>
-        <!-- Timeline Item 2 -->
-        <div class="timeline-item scroll-reveal">
-          <div class="timeline-date">December 25, 2023</div>
-          <div class="timeline-content">
-            <img src="https://via.placeholder.com/300x200" alt="Memory 2">
-            <p>Our first Christmas together! The matching sweaters were a hit.</p>
-          </div>
-        </div>
-      </div>
     </section>
 
     <hr class="divider">
 
-    <!-- Feature 5: Custom Mini-Game (Trivia) -->
     <section class="section trivia-section">
       <h2>Relationship Trivia! 🕵️‍♀️</h2>
       <div id="trivia-container" class="trivia-card">
-        <p id="trivia-question">Where did we have our first date?</p>
-        <div class="trivia-options">
-          <button onclick="checkAnswer(false)">The Movies</button>
-          <button onclick="checkAnswer(true)">The Coffee Shop</button>
-          <button onclick="checkAnswer(false)">The Park</button>
         </div>
-        <p id="trivia-result" style="display:none; margin-top: 15px; font-weight:bold;"></p>
-      </div>
     </section>
 
   </div>
 
-  <script src="script.js"></script>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
