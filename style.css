@@ -9,6 +9,7 @@ body {
     overflow-x: hidden;
 }
 
+/* --- PROPOSAL SECTION --- */
 .wrapper {
     position: relative;
     width: 90%;
@@ -16,7 +17,7 @@ body {
     min-height: 400px;
     text-align: center;
     background: white;
-    padding: 30px 20px;
+    padding: 40px 30px;
     border-radius: 15px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
     margin: 10vh auto;
@@ -25,15 +26,32 @@ body {
     justify-content: center;
     align-items: center;
     z-index: 10;
+    box-sizing: border-box;
 }
 
-.question { font-size: 24px; font-weight: bold; margin-bottom: 20px; }
-.gif { max-width: 100%; height: auto; margin-bottom: 20px; border-radius: 10px; }
-.btn-group { display: flex; justify-content: center; gap: 20px; width: 100%; }
+.question { 
+    font-size: 26px; 
+    font-weight: bold; 
+    margin-bottom: 20px; 
+}
+
+.gif { 
+    max-width: 100%; 
+    height: auto; 
+    margin-bottom: 25px; 
+    border-radius: 10px; 
+}
+
+.btn-group { 
+    display: flex; 
+    justify-content: center; 
+    gap: 20px; 
+    width: 100%; 
+}
 
 /* Proposal Buttons */
 button {
-    padding: 12px 30px;
+    padding: 12px 35px;
     font-size: 18px;
     font-weight: bold;
     border: none;
@@ -41,10 +59,28 @@ button {
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
+
 button:active { transform: scale(0.95); }
-.yes-btn { background-color: #4caf50; color: white; z-index: 2; animation: pulse 2s infinite; }
-.yes-btn:hover { background-color: #45a049; transform: scale(1.05); animation: none; }
-.no-btn { background-color: #ff4d4d; color: white; z-index: 1; transition: left 0.3s ease-out, top 0.3s ease-out; }
+
+.yes-btn { 
+    background-color: #4caf50; 
+    color: white; 
+    z-index: 2; 
+    animation: pulse 2s infinite; 
+}
+
+.yes-btn:hover { 
+    background-color: #45a049; 
+    transform: scale(1.05); 
+    animation: none; 
+}
+
+.no-btn { 
+    background-color: #ff4d4d; 
+    color: white; 
+    z-index: 1; 
+    transition: left 0.3s ease-out, top 0.3s ease-out; 
+}
 
 @keyframes pulse {
     0% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.7); }
@@ -57,7 +93,7 @@ button:active { transform: scale(0.95); }
     width: 100%;
     max-width: 800px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 30px 20px;
     box-sizing: border-box;
     position: relative;
     z-index: 10;
@@ -71,7 +107,7 @@ button:active { transform: scale(0.95); }
     gap: 10px;
     margin-bottom: 30px;
     background: rgba(255, 255, 255, 0.5);
-    padding: 10px;
+    padding: 15px;
     border-radius: 50px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.05);
 }
@@ -94,8 +130,9 @@ button:active { transform: scale(0.95); }
     border-radius: 15px;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
     min-height: 400px;
-    padding: 40px;
+    padding: 50px;
     position: relative;
+    box-sizing: border-box;
 }
 
 .panel {
@@ -103,9 +140,7 @@ button:active { transform: scale(0.95); }
     animation: fadeIn 0.4s ease-in-out forwards;
 }
 
-.panel.active {
-    display: block; 
-}
+.panel.active { display: block; }
 
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
@@ -115,21 +150,22 @@ button:active { transform: scale(0.95); }
 /* Feature Specific Styles */
 .letter-content p { font-size: 20px; line-height: 1.8; margin-bottom: 15px; color: #444; }
 .envelope-grid { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 20px; }
-.envelope { background: #ffe4e1; border: 2px dashed #ff6b81; padding: 20px; border-radius: 10px; cursor: pointer; width: 130px; text-align: center; transition: transform 0.3s ease; }
+.envelope { background: #ffe4e1; border: 2px dashed #ff6b81; padding: 20px; border-radius: 10px; cursor: pointer; width: 130px; text-align: center; transition: transform 0.3s ease; box-sizing: border-box; }
 .envelope:hover { transform: translateY(-10px); }
 .envelope:active { transform: scale(0.95); }
 .envelope span { font-size: 40px; }
 
 /* Timeline */
-.timeline { border-left: 4px solid #ff6b81; padding-left: 20px; margin: 20px auto 0; text-align: left; max-width: 600px; }
+.timeline { border-left: 4px solid #ff6b81; padding-left: 25px; margin: 20px auto 0; text-align: left; max-width: 600px; }
 .timeline-item { margin-bottom: 40px; position: relative; }
-.timeline-item::before { content: ''; position: absolute; left: -32px; top: 0; width: 20px; height: 20px; background: #ff6b81; border-radius: 50%; }
-.timeline-date { font-weight: bold; color: #ff6b81; margin-bottom: 10px; }
-.timeline-content img { width: 100%; max-width: 400px; border-radius: 10px; margin-bottom: 10px; }
+.timeline-item::before { content: ''; position: absolute; left: -37px; top: 0; width: 20px; height: 20px; background: #ff6b81; border-radius: 50%; border: 4px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+.timeline-date { font-weight: bold; color: #ff6b81; margin-bottom: 10px; font-size: 18px; }
+.timeline-content img { width: 100%; max-width: 400px; border-radius: 10px; margin-bottom: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+.timeline-content p { line-height: 1.6; color: #444; margin: 0; }
 
 /* Trivia */
-.trivia-options { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; max-width: 400px; margin: 20px auto 0; }
-.trivia-options button { background-color: #ffafbd; color: #333; }
+.trivia-options { display: flex; flex-direction: column; gap: 12px; margin-top: 25px; max-width: 400px; margin-left: auto; margin-right: auto; }
+.trivia-options button { background-color: #ffafbd; color: #333; width: 100%; box-sizing: border-box; }
 .trivia-options button:hover { background-color: #ff6b81; color: white; }
 
 /* --- BLOOMING FLOWER GARDEN --- */
@@ -169,16 +205,8 @@ button:active { transform: scale(0.95); }
     animation: popIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
-@keyframes growUp {
-    to { bottom: -20px; } 
-}
-
-@keyframes popIn {
-    to { 
-        opacity: 1; 
-        transform: scale(1) rotate(calc(-10deg + 20deg * var(--rand))); 
-    }
-}
+@keyframes growUp { to { bottom: -20px; } }
+@keyframes popIn { to { opacity: 1; transform: scale(1) rotate(calc(-10deg + 20deg * var(--rand))); } }
 
 /* --- CUSTOM ANIMATED MODAL --- */
 .modal-overlay {
@@ -194,46 +222,81 @@ button:active { transform: scale(0.95); }
     transition: opacity 0.3s ease;
 }
 
-.modal-overlay.show {
-    display: flex;
-    opacity: 1;
-}
+.modal-overlay.show { display: flex; opacity: 1; }
 
 .modal-box {
     background: white;
     padding: 40px;
     border-radius: 15px;
     max-width: 400px;
-    width: 80%;
+    width: 85%;
     text-align: center;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
     border: 3px dashed #ff6b81;
     transform: scale(0.8);
     transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     position: relative;
+    box-sizing: border-box;
 }
 
-.modal-overlay.show .modal-box {
-    transform: scale(1);
-}
+.modal-overlay.show .modal-box { transform: scale(1); }
+.modal-box p { font-size: 20px; color: #444; line-height: 1.6; margin: 0; }
+.close-btn { position: absolute; top: 10px; right: 15px; font-size: 28px; color: #ff6b81; cursor: pointer; font-weight: bold; transition: transform 0.2s; }
+.close-btn:hover { transform: scale(1.2); }
 
-.modal-box p {
-    font-size: 20px;
-    color: #444;
-    line-height: 1.6;
-    margin: 0;
-}
 
-.close-btn {
-    position: absolute;
-    top: 10px; right: 15px;
-    font-size: 28px;
-    color: #ff6b81;
-    cursor: pointer;
-    font-weight: bold;
-    transition: transform 0.2s;
-}
+/* =========================================================
+   MOBILE RESPONSIVENESS (iPhones & Androids)
+   ========================================================= */
+@media (max-width: 768px) {
+    
+    /* Shrink the initial proposal card */
+    .wrapper { 
+        padding: 30px 20px; 
+        margin: 5vh auto;
+        min-height: 350px;
+    }
+    
+    .question { font-size: 22px; }
+    button { padding: 10px 25px; font-size: 16px; }
+    
+    /* Reflow the Navigation Bar so buttons don't clip */
+    .app-nav { 
+        padding: 10px; 
+        border-radius: 20px; 
+        gap: 5px; 
+    }
+    
+    .nav-btn { 
+        font-size: 14px; 
+        padding: 8px 12px; 
+        flex: 1 1 45%; /* Makes buttons sit in a 2x2 grid on small screens */
+    }
 
-.close-btn:hover {
-    transform: scale(1.2);
+    /* Adjust main content padding */
+    .panels-container { padding: 30px 20px; }
+    .letter-content p { font-size: 16px; }
+
+    /* Envelopes */
+    .envelope-grid { gap: 15px; }
+    .envelope { width: 110px; padding: 15px; }
+    .envelope span { font-size: 30px; }
+    .envelope p { font-size: 14px; }
+
+    /* Timeline Adjustments */
+    .timeline { padding-left: 20px; border-left-width: 3px; }
+    .timeline-item::before { left: -31px; width: 16px; height: 16px; border-width: 3px; }
+    .timeline-date { font-size: 16px; }
+    
+    /* Modal Text shrinking for mobile */
+    .modal-box { padding: 30px 20px; }
+    .modal-box p { font-size: 16px; }
+
+    /* Shrink the polaroids slightly so they don't overlap too heavily on small screens */
+    .bloom-photo {
+        width: 60px;
+        height: 60px;
+        top: -45px;
+        margin-left: -35px;
+    }
 }
