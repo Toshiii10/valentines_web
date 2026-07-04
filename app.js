@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const navButtons = document.querySelectorAll(".nav-btn");
     const panels = document.querySelectorAll(".panel");
 
+    // UPDATE THIS: Change to the second your new song's best part starts
     const chorusStartTime = 47; 
 
     // --- INITIALIZATION ---
@@ -17,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
     renderTrivia();
 
     window.addEventListener('click', () => {
-        if (bgMusic.paused) {
+        if (bgMusic.paused && bgMusic.src !== "") {
             bgMusic.play().catch(e => console.log("Audio play prevented:", e));
         }
     }, { once: true });
@@ -28,13 +29,15 @@ document.addEventListener("DOMContentLoaded", () => {
       gif.src = "https://media.tenor.com/images/10802104815768868113/tenor.gif"; 
       document.querySelector(".btn-group").style.display = "none";
       
-      bgMusic.currentTime = chorusStartTime;
-      bgMusic.play();
+      // Only play if an audio file is set
+      if (bgMusic.src !== "") {
+          bgMusic.currentTime = chorusStartTime;
+          bgMusic.play().catch(e => console.log("Audio issue:", e));
+      }
 
       proposalSection.style.display = "none";
       unlockedContent.style.display = "block";
 
-      // Trigger the flower animation
       createGarden();
     });
 
@@ -69,11 +72,26 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // --- ENVELOPE LOGIC ---
+    // --- CUSTOM MODAL LOGIC ---
+    const modalOverlay = document.getElementById("custom-modal");
+    const modalText = document.getElementById("modal-text");
+    const closeBtn = document.querySelector(".close-btn");
+
+    function showMessage(text) {
+        modalText.innerText = text;
+        modalOverlay.classList.add("show");
+    }
+
+    closeBtn.addEventListener("click", () => modalOverlay.classList.remove("show"));
+    modalOverlay.addEventListener("click", (e) => {
+        if (e.target === modalOverlay) modalOverlay.classList.remove("show");
+    });
+
+    // --- ENVELOPE LOGIC (Upgraded) ---
     document.querySelectorAll('.envelope').forEach(env => {
         env.addEventListener('click', (e) => {
             const mood = e.currentTarget.getAttribute('data-mood');
-            alert(envelopeData[mood]);
+            showMessage(envelopeData[mood]); 
         });
     });
 
@@ -107,19 +125,16 @@ document.addEventListener("DOMContentLoaded", () => {
         `;
     }
 
+    // --- TRIVIA LOGIC (Upgraded) ---
     window.handleTriviaAnswer = function(isCorrect) {
-        const resultText = document.getElementById("trivia-result");
-        resultText.style.display = "block";
         if (isCorrect) {
-            resultText.innerText = triviaData.successMessage;
-            resultText.style.color = "#4caf50";
+            showMessage(triviaData.successMessage);
         } else {
-            resultText.innerText = triviaData.failMessage;
-            resultText.style.color = "#ff4d4d";
+            showMessage(triviaData.failMessage);
         }
     };
 
-    // --- FLOWER GARDEN ANIMATION LOGIC ---
+    // --- FLOWER GARDEN ANIMATION LOGIC (Upgraded) ---
     function createGarden() {
         const garden = document.getElementById("flower-garden");
         garden.style.display = "block";
@@ -148,15 +163,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 </svg>
             `;
 
-            if (i < bloomPhotos.length) {
-                const img = document.createElement("img");
-                img.src = bloomPhotos[i];
-                img.className = "bloom-photo";
-                img.style.animationDelay = `${delay + 0.8}s`; 
-                img.style.setProperty('--rand', Math.random());
-                wrapper.appendChild(img);
-            }
-
+            // Use modulo (%) to loop through your photos infinitely
+            const photoIndex = i % bloomPhotos.length;
+            
+            const img = document.createElement("img");
+            img.src = bloomPhotos[photoIndex]; 
+            img.className = "bloom-photo";
+            img.style.animationDelay = `${delay + 0.8}s`; 
+            img.style.setProperty('--rand', Math.random());
+            
+            wrapper.appendChild(img);
             garden.appendChild(wrapper);
         }
     }
