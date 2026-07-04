@@ -9,12 +9,14 @@ body {
     height: 100vh;
     background: linear-gradient(135deg, #ffafbd, #ffc3a0);
     color: black;
+    overflow: hidden; /* Prevents scrollbars if the No button goes wild */
 }
 
 .wrapper {
     position: relative;
     width: 90%;
     max-width: 500px;
+    min-height: 400px; /* Gives the No button room to run around */
     text-align: center;
     background: white;
     padding: 30px 20px;
@@ -50,7 +52,8 @@ button {
     border: none;
     border-radius: 50px;
     cursor: pointer;
-    transition: transform 0.s ease, background-color 0.3s ease;
+    /* Fixed typo here from 0.s to 0.3s */
+    transition: transform 0.3s ease, background-color 0.3s ease; 
 }
 
 button:focus {
@@ -61,6 +64,7 @@ button:focus {
     background-color: #4caf50;
     color: white;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    z-index: 2; /* Keeps Yes button clickable above moving elements */
 }
 
 .yes-btn:hover {
@@ -69,13 +73,12 @@ button:focus {
 }
 
 .no-btn {
-    position: relative;
     background-color: #ff4d4d;
     color: white;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1;
 }
 
 .no-btn:hover {
     background-color: #e43e3e;
-    transform: scale(1.05);
 }
