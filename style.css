@@ -9,7 +9,6 @@ body {
     scroll-behavior: smooth;
 }
 
-/* Proposal Wrapper (Centered on screen) */
 .wrapper {
     position: relative;
     width: 90%;
@@ -31,6 +30,7 @@ body {
 .gif { max-width: 100%; height: auto; margin-bottom: 20px; border-radius: 10px; }
 .btn-group { display: flex; justify-content: center; gap: 20px; width: 100%; }
 
+/* --- Upgraded Button Interactions --- */
 button {
     padding: 12px 30px;
     font-size: 18px;
@@ -38,118 +38,63 @@ button {
     border: none;
     border-radius: 50px;
     cursor: pointer;
-    transition: transform 0.3s ease, background-color 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smoother interaction */
 }
-.yes-btn { background-color: #4caf50; color: white; z-index: 2; }
-.yes-btn:hover { background-color: #45a049; transform: scale(1.05); }
-.no-btn { background-color: #ff4d4d; color: white; z-index: 1; }
-.no-btn:hover { background-color: #e43e3e; }
+
+button:active {
+    transform: scale(0.95); /* Tactile press effect */
+}
+
+.yes-btn { 
+    background-color: #4caf50; 
+    color: white; 
+    z-index: 2; 
+    animation: pulse 2s infinite; /* Draws attention */
+}
+
+.yes-btn:hover { 
+    background-color: #45a049; 
+    transform: scale(1.05); 
+    animation: none; /* Stop pulsing on hover */
+}
+
+.no-btn { 
+    background-color: #ff4d4d; 
+    color: white; 
+    z-index: 1; 
+    transition: left 0.3s ease-out, top 0.3s ease-out; /* Smooth evasion */
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.7); }
+    70% { box-shadow: 0 0 0 15px rgba(76, 175, 80, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0); }
+}
 
 /* Unlocked Content Styles */
-#unlocked-content {
-    width: 100%;
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 40px 20px;
-    box-sizing: border-box;
-}
+#unlocked-content { width: 100%; max-width: 800px; margin: 0 auto; padding: 40px 20px; box-sizing: border-box; }
+.section { background: rgba(255, 255, 255, 0.9); padding: 40px; border-radius: 15px; margin-bottom: 40px; text-align: center; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); }
+.divider { border: 0; height: 2px; background: #fff; margin: 40px auto; width: 50%; opacity: 0.5; }
 
-.section {
-    background: rgba(255, 255, 255, 0.9);
-    padding: 40px;
-    border-radius: 15px;
-    margin-bottom: 40px;
-    text-align: center;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-}
-
-.divider {
-    border: 0;
-    height: 2px;
-    background: #fff;
-    margin: 40px auto;
-    width: 50%;
-    opacity: 0.5;
-}
-
-/* Digital Love Letter */
-.scroll-reveal {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 1s ease-out, transform 1s ease-out;
-    font-size: 20px;
-    margin-bottom: 20px;
-    line-height: 1.6;
-}
-.scroll-reveal.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
+/* Animations */
+.scroll-reveal { opacity: 0; transform: translateY(30px); transition: opacity 1s ease-out, transform 1s ease-out; font-size: 20px; margin-bottom: 20px; line-height: 1.6; }
+.scroll-reveal.visible { opacity: 1; transform: translateY(0); }
 
 /* Envelopes */
-.envelope-grid {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    flex-wrap: wrap;
-}
-.envelope {
-    background: #ffe4e1;
-    border: 2px dashed #ff6b81;
-    padding: 20px;
-    border-radius: 10px;
-    cursor: pointer;
-    width: 150px;
-    transition: transform 0.3s ease;
-}
+.envelope-grid { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+.envelope { background: #ffe4e1; border: 2px dashed #ff6b81; padding: 20px; border-radius: 10px; cursor: pointer; width: 150px; transition: transform 0.3s ease; }
 .envelope:hover { transform: translateY(-10px); }
+.envelope:active { transform: scale(0.95); }
 .envelope span { font-size: 40px; }
 
-/* Memory Timeline */
-.timeline {
-    border-left: 4px solid #ff6b81;
-    padding-left: 20px;
-    margin: 0 auto;
-    text-align: left;
-    max-width: 600px;
-}
-.timeline-item {
-    margin-bottom: 40px;
-    position: relative;
-}
-.timeline-item::before {
-    content: '';
-    position: absolute;
-    left: -32px;
-    top: 0;
-    width: 20px;
-    height: 20px;
-    background: #ff6b81;
-    border-radius: 50%;
-}
-.timeline-date {
-    font-weight: bold;
-    color: #ff6b81;
-    margin-bottom: 10px;
-}
-.timeline-content img {
-    width: 100%;
-    border-radius: 10px;
-    margin-bottom: 10px;
-}
+/* Timeline */
+.timeline { border-left: 4px solid #ff6b81; padding-left: 20px; margin: 0 auto; text-align: left; max-width: 600px; }
+.timeline-item { margin-bottom: 40px; position: relative; }
+.timeline-item::before { content: ''; position: absolute; left: -32px; top: 0; width: 20px; height: 20px; background: #ff6b81; border-radius: 50%; }
+.timeline-date { font-weight: bold; color: #ff6b81; margin-bottom: 10px; }
+.timeline-content img { width: 100%; border-radius: 10px; margin-bottom: 10px; }
 
 /* Trivia */
-.trivia-options {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-top: 20px;
-}
-.trivia-options button {
-    background-color: #ffafbd;
-    color: #333;
-}
-.trivia-options button:hover {
-    background-color: #ff6b81;
-    color: white;
-}
+.trivia-options { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
+.trivia-options button { background-color: #ffafbd; color: #333; }
+.trivia-options button:hover { background-color: #ff6b81; color: white; }
