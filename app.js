@@ -233,7 +233,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }, 30); // Typing speed
         });
     }
-
     // --- FLOWER GARDEN ---
     function createGarden() {
         const garden = document.getElementById("flower-garden");
