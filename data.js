@@ -1,9 +1,9 @@
-// data.js - Stores all content for the features
+// data.js - Stores all your personal content
 
 const timelineData = [
     {
         date: "October 14, 2023",
-        image: "https://via.placeholder.com/300x200", // Replace with your actual image paths later
+        image: "https://via.placeholder.com/300x200", 
         caption: "The day we went to that amazing cafe. I couldn't stop looking at you."
     },
     {
@@ -29,3 +29,11 @@ const envelopeData = {
     laugh: "Remember that time I tripped over absolutely nothing? Yeah, you're welcome. 😂",
     sad: "Take a deep breath. I am always here for you, in your corner, cheering you on. 💖"
 };
+
+// Photos that will bloom with the tulips
+const bloomPhotos = [
+    "https://via.placeholder.com/150", 
+    "https://via.placeholder.com/150",
+    "https://via.placeholder.com/150",
+    "https://via.placeholder.com/150"
+];

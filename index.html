@@ -11,6 +11,8 @@
      <source src="yungkai-blue.mp3" type="audio/mpeg">
   </audio>
 
+  <div id="flower-garden"></div>
+
   <div class="wrapper" id="proposal-section">
     <h2 class="question">Will you be my valentines?</h2>
     <img class="gif" id="main-gif" alt="cute bear gif" src="https://tenor.com/view/dudu-wearing-glasses-standing-nice-cute-funny-bear-gif-3741906134197657056.gif" />
@@ -22,41 +24,47 @@
 
   <div id="unlocked-content" style="display: none;">
     
-    <section class="section love-letter">
-      <div class="scroll-reveal">My Dearest,</div>
-      <div class="scroll-reveal">From the moment you walked into my life, everything changed.</div>
-      <div class="scroll-reveal">You are my favorite notification, my favorite smile...</div>
-      <div class="scroll-reveal">And my greatest blessing.</div>
-      <div class="scroll-reveal">I love you more than words can say. ❤️</div>
-    </section>
+    <nav class="app-nav">
+      <button class="nav-btn active" data-target="love-letter">💌 Letter</button>
+      <button class="nav-btn" data-target="envelopes">📬 Open When</button>
+      <button class="nav-btn" data-target="memories">📸 Memories</button>
+      <button class="nav-btn" data-target="trivia">🎲 Trivia</button>
+    </nav>
 
-    <hr class="divider">
-
-    <section class="section envelopes-section">
-      <h2>"Open When..."</h2>
-      <div class="envelope-grid">
-        <div class="envelope" data-mood="miss"><span>💌</span><p>You miss me</p></div>
-        <div class="envelope" data-mood="laugh"><span>💌</span><p>You need a laugh</p></div>
-        <div class="envelope" data-mood="sad"><span>💌</span><p>You feel sad</p></div>
-      </div>
-    </section>
-
-    <hr class="divider">
-
-    <section class="section timeline-section">
-      <h2>Our Favorite Moments</h2>
-      <div class="timeline" id="timeline-container">
+    <div class="panels-container">
+      
+      <section id="love-letter" class="panel active">
+        <div class="letter-content">
+          <p>My Dearest,</p>
+          <p>From the moment you walked into my life, everything changed.</p>
+          <p>You are my favorite notification, my favorite smile...</p>
+          <p>And my greatest blessing.</p>
+          <p>I love you more than words can say. ❤️</p>
         </div>
-    </section>
+      </section>
 
-    <hr class="divider">
-
-    <section class="section trivia-section">
-      <h2>Relationship Trivia! 🕵️‍♀️</h2>
-      <div id="trivia-container" class="trivia-card">
+      <section id="envelopes" class="panel">
+        <h2>"Open When..."</h2>
+        <div class="envelope-grid">
+          <div class="envelope" data-mood="miss"><span>💌</span><p>You miss me</p></div>
+          <div class="envelope" data-mood="laugh"><span>💌</span><p>You need a laugh</p></div>
+          <div class="envelope" data-mood="sad"><span>💌</span><p>You feel sad</p></div>
         </div>
-    </section>
+      </section>
 
+      <section id="memories" class="panel">
+        <h2>Our Favorite Moments</h2>
+        <div class="timeline" id="timeline-container">
+          </div>
+      </section>
+
+      <section id="trivia" class="panel">
+        <h2>Relationship Trivia! 🕵️‍♀️</h2>
+        <div id="trivia-container" class="trivia-card">
+          </div>
+      </section>
+
+    </div>
   </div>
 
   <script src="data.js"></script>
