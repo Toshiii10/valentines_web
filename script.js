@@ -1,45 +1,46 @@
 const yesBtn = document.querySelector(".yes-btn");
 const noBtn = document.querySelector(".no-btn");
 const question = document.querySelector(".question");
-const gif = document.querySelector(".gif");
+const gif = document.getElementById("main-gif");
 const bgMusic = document.getElementById("bg-music");
-const wrapper = document.querySelector(".wrapper");
+const proposalSection = document.getElementById("proposal-section");
+const unlockedContent = document.getElementById("unlocked-content");
 
 const chorusStartTime = 47; 
 
-// Play music on first interaction (Browser policy requirement)
+// Initialize audio on first click
 window.addEventListener('click', () => {
     if (bgMusic.paused) {
-        bgMusic.play().catch(error => console.log("Audio autoplay prevented:", error));
+        bgMusic.play().catch(e => console.log("Audio play prevented:", e));
     }
-}, { once: true }); // Only runs once to initialize audio
+}, { once: true });
 
-// Yes Button Logic
+// --- YES BUTTON LOGIC & UNLOCKING ---
 yesBtn.addEventListener("click", () => {
-  question.innerHTML = "Happy Valentines! Being with you is my biggest blessing. I love you so much ❤️";
-  // The .gif extension was missing in your original code snippet, replaced with a direct mp4/gif link if needed, but keeping your tenor link:
+  // Update the initial card
+  question.innerHTML = "Happy Valentines! Scroll down for a surprise... ❤️";
   gif.src = "https://media.tenor.com/images/10802104815768868113/tenor.gif"; 
+  
+  document.querySelector(".btn-group").style.display = "none"; // Hide both buttons
 
-  noBtn.style.display = "none";
-  yesBtn.style.display = "none"; // Optional: hide Yes button after clicking
-
-  // Jump to chorus
+  // Jump music to chorus
   bgMusic.currentTime = chorusStartTime;
   bgMusic.play();
 
-  /* * Integration Idea:
-   * You can easily drop your Firebase Realtime Database push logic right here 
-   * to automatically log "Accepted Valentine's Request" as a new milestone 
-   * directly to your shared timeline application!
-   */
+  // Reveal the rest of the website
+  unlockedContent.style.display = "block";
+
+  // Smooth scroll to the love letter
+  setTimeout(() => {
+      unlockedContent.scrollIntoView({ behavior: "smooth" });
+  }, 1000);
 });
 
-// Smarter No Button Evasion
+// --- NO BUTTON EVASION ---
 function moveNoButton() {
-  const wrapperRect = wrapper.getBoundingClientRect();
+  const wrapperRect = proposalSection.getBoundingClientRect();
   const noBtnRect = noBtn.getBoundingClientRect();
 
-  // Subtract padding so the button doesn't clip outside the wrapper
   const padding = 20; 
   const maxX = wrapperRect.width - noBtnRect.width - padding;
   const maxY = wrapperRect.height - noBtnRect.height - padding;
@@ -54,6 +55,51 @@ function moveNoButton() {
 
 noBtn.addEventListener("mouseover", moveNoButton);
 noBtn.addEventListener("touchstart", (e) => {
-    e.preventDefault(); // Prevents accidental clicking on mobile before it moves
+    e.preventDefault(); 
     moveNoButton();
 });
+
+// --- SCROLL REVEAL ANIMATION (Love Letter & Timeline) ---
+// This makes text and images fade in smoothly as they enter the screen
+const observerOptions = { threshold: 0.1 };
+const observer = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target); // Only animate once
+        }
+    });
+}, observerOptions);
+
+// Apply observer to all elements with the 'scroll-reveal' class
+document.querySelectorAll('.scroll-reveal').forEach(el => {
+    observer.observe(el);
+});
+
+// --- ENVELOPE LOGIC ---
+function openEnvelope(mood) {
+    let message = "";
+    if (mood === 'miss') {
+        message = "Just look at the stars tonight. I'm looking at the same ones, thinking of you. ✨";
+    } else if (mood === 'laugh') {
+        message = "Remember that time I tripped over absolutely nothing? Yeah, you're welcome. 😂";
+    } else if (mood === 'sad') {
+        message = "Take a deep breath. I am always here for you, in your corner, cheering you on. 💖";
+    }
+    // You can upgrade this to an actual modal/popup later, but a simple alert works great to start!
+    alert(message); 
+}
+
+// --- TRIVIA LOGIC ---
+function checkAnswer(isCorrect) {
+    const resultText = document.getElementById("trivia-result");
+    resultText.style.display = "block";
+    
+    if (isCorrect) {
+        resultText.innerText = "Correct! You know me so well. 🥰";
+        resultText.style.color = "#4caf50";
+    } else {
+        resultText.innerText = "Oops! Try again... I still love you though! 😅";
+        resultText.style.color = "#ff4d4d";
+    }
+}
