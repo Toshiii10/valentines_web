@@ -116,4 +116,5 @@ button:active { transform: scale(0.95); }
     .stats-container { flex-direction: column; align-items: center; }
     .coupon-grid { flex-direction: column; align-items: center; }
     .coupon { width: 100%; max-width: 300px; }
+
 }
