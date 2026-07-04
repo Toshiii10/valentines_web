@@ -20,6 +20,16 @@
     </div>
   </div>
 
+  <div id="terminal-overlay">
+    <div class="terminal-window">
+        <div class="terminal-header">
+            <span class="btn red"></span><span class="btn yellow"></span><span class="btn green"></span>
+            bash - root@heart
+        </div>
+        <div class="terminal-body" id="terminal-text"></div>
+    </div>
+  </div>
+
   <div class="wrapper" id="proposal-section">
     <h2 class="question">Will you be my valentines?</h2>
     <img class="gif" id="main-gif" alt="cute bear gif" src="https://tenor.com/view/dudu-wearing-glasses-standing-nice-cute-funny-bear-gif-3741906134197657056.gif" />
@@ -31,8 +41,13 @@
 
   <div id="unlocked-content" style="display: none;">
     
+    <h1 id="secret-title">Happy Valentines Day! ❤️</h1>
+
     <nav class="app-nav">
       <button class="nav-btn active" data-target="love-letter">💌 Letter</button>
+      <button class="nav-btn" data-target="episodes">🎬 Episodes</button>
+      <button class="nav-btn" data-target="stats">🎮 Stats</button>
+      <button class="nav-btn" data-target="coupons">🎟️ Coupons</button>
       <button class="nav-btn" data-target="envelopes">📬 Open When</button>
       <button class="nav-btn" data-target="memories">📸 Memories</button>
       <button class="nav-btn" data-target="trivia">🎲 Trivia</button>
@@ -46,7 +61,7 @@
           <p>From the moment you walked into my life, everything changed.</p>
           <p>You are my favorite notification, my favorite smile...</p>
           <p>And my greatest blessing.</p>
-          <p>I love you more than words can say. ❤️</p>
+          <p>I love you more than words can say.</p>
         </div>
       </section>
 
@@ -61,14 +76,29 @@
 
       <section id="memories" class="panel">
         <h2>Our Favorite Moments</h2>
-        <div class="timeline" id="timeline-container">
-          </div>
+        <div class="timeline" id="timeline-container"></div>
       </section>
 
       <section id="trivia" class="panel">
         <h2>Relationship Trivia! 🕵️‍♀️</h2>
-        <div id="trivia-container" class="trivia-card">
-          </div>
+        <div id="trivia-container" class="trivia-card"></div>
+      </section>
+
+      <section id="episodes" class="panel">
+        <h2 style="margin-bottom: 5px;">When Love is a Losing Bet</h2>
+        <p style="color:#777; margin-top:0;">Season 1</p>
+        <div class="episodes-carousel" id="episodes-container"></div>
+      </section>
+
+      <section id="stats" class="panel">
+        <h2>Player Lobby</h2>
+        <div class="stats-container" id="stats-container"></div>
+      </section>
+
+      <section id="coupons" class="panel">
+        <h2>Love Coupons</h2>
+        <p style="font-size: 14px; color: #666;">Tap to claim! (They save automatically)</p>
+        <div class="coupon-grid" id="coupons-container"></div>
       </section>
 
     </div>

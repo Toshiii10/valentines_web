@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // --- DOM ELEMENTS ---
     const yesBtn = document.querySelector(".yes-btn");
     const noBtn = document.querySelector(".no-btn");
     const question = document.querySelector(".question");
@@ -10,58 +9,48 @@ document.addEventListener("DOMContentLoaded", () => {
     const navButtons = document.querySelectorAll(".nav-btn");
     const panels = document.querySelectorAll(".panel");
 
-    // UPDATE THIS: Change to the second your new song's best part starts
     const chorusStartTime = 47; 
 
-    // --- INITIALIZATION ---
+    // Initialize UI
     renderTimeline();
     renderTrivia();
+    renderEpisodes();
+    renderStats();
+    renderCoupons();
 
     window.addEventListener('click', () => {
-        if (bgMusic.paused && bgMusic.src !== "") {
-            bgMusic.play().catch(e => console.log("Audio play prevented:", e));
+        if (bgMusic.paused && bgMusic.src && !bgMusic.src.endsWith("YOUR_AUDIO_FILE.mp3")) {
+            bgMusic.play().catch(e => console.log("Audio issue:", e));
         }
     }, { once: true });
 
-    // --- YES BUTTON LOGIC ---
+    // --- PROPOSAL LOGIC ---
     yesBtn.addEventListener("click", () => {
-      question.innerHTML = "Happy Valentines! ❤️";
-      gif.src = "https://media.tenor.com/images/10802104815768868113/tenor.gif"; 
       document.querySelector(".btn-group").style.display = "none";
-      
-      // Only play if an audio file is set
-      if (bgMusic.src !== "") {
+      if (bgMusic.src && !bgMusic.src.endsWith("YOUR_AUDIO_FILE.mp3")) {
           bgMusic.currentTime = chorusStartTime;
           bgMusic.play().catch(e => console.log("Audio issue:", e));
       }
-
       proposalSection.style.display = "none";
       unlockedContent.style.display = "block";
-
       createGarden();
     });
 
-    // --- NO BUTTON EVASION ---
     function moveNoButton() {
       const wrapperRect = proposalSection.getBoundingClientRect();
       const noBtnRect = noBtn.getBoundingClientRect();
       const padding = 20; 
-      
       const maxX = wrapperRect.width - noBtnRect.width - padding;
       const maxY = wrapperRect.height - noBtnRect.height - padding;
-
-      const randomX = Math.max(padding, Math.floor(Math.random() * maxX));
-      const randomY = Math.max(padding, Math.floor(Math.random() * maxY));
-
       noBtn.style.position = "absolute"; 
-      noBtn.style.left = `${randomX}px`;
-      noBtn.style.top = `${randomY}px`;
+      noBtn.style.left = `${Math.max(padding, Math.floor(Math.random() * maxX))}px`;
+      noBtn.style.top = `${Math.max(padding, Math.floor(Math.random() * maxY))}px`;
     }
 
     noBtn.addEventListener("mouseover", moveNoButton);
     noBtn.addEventListener("touchstart", (e) => { e.preventDefault(); moveNoButton(); });
 
-    // --- NAVIGATION TAB CONTROLLER ---
+    // --- TAB CONTROLLER ---
     navButtons.forEach(btn => {
         btn.addEventListener("click", () => {
             navButtons.forEach(b => b.classList.remove("active"));
@@ -69,109 +58,201 @@ document.addEventListener("DOMContentLoaded", () => {
             btn.classList.add("active");
             const targetId = btn.getAttribute("data-target");
             document.getElementById(targetId).classList.add("active");
+
+            // Animate stat bars if stats tab is opened
+            if (targetId === "stats") {
+                setTimeout(() => {
+                    document.querySelectorAll('.stat-bar-fill').forEach(bar => {
+                        bar.style.width = bar.getAttribute('data-value') + '%';
+                    });
+                }, 100);
+            }
         });
     });
 
-    // --- CUSTOM MODAL LOGIC ---
+    // --- MODAL CONTROLLER ---
     const modalOverlay = document.getElementById("custom-modal");
     const modalText = document.getElementById("modal-text");
-    const closeBtn = document.querySelector(".close-btn");
-
+    document.querySelector(".close-btn").addEventListener("click", () => modalOverlay.classList.remove("show"));
+    modalOverlay.addEventListener("click", (e) => {
+        if (e.target === modalOverlay) modalOverlay.classList.remove("show");
+    });
     function showMessage(text) {
         modalText.innerText = text;
         modalOverlay.classList.add("show");
     }
 
-    closeBtn.addEventListener("click", () => modalOverlay.classList.remove("show"));
-    modalOverlay.addEventListener("click", (e) => {
-        if (e.target === modalOverlay) modalOverlay.classList.remove("show");
-    });
-
-    // --- ENVELOPE LOGIC (Upgraded) ---
+    // --- LEGACY RENDERERS ---
     document.querySelectorAll('.envelope').forEach(env => {
-        env.addEventListener('click', (e) => {
-            const mood = e.currentTarget.getAttribute('data-mood');
-            showMessage(envelopeData[mood]); 
-        });
+        env.addEventListener('click', (e) => showMessage(envelopeData[e.currentTarget.getAttribute('data-mood')]));
     });
 
-    // --- DYNAMIC RENDER FUNCTIONS ---
     function renderTimeline() {
         const container = document.getElementById("timeline-container");
         timelineData.forEach(item => {
-            const div = document.createElement("div");
-            div.className = "timeline-item";
-            div.innerHTML = `
-                <div class="timeline-date">${item.date}</div>
-                <div class="timeline-content">
-                    <img src="${item.image}" alt="Memory">
-                    <p>${item.caption}</p>
-                </div>
-            `;
-            container.appendChild(div);
+            container.innerHTML += `
+                <div class="timeline-item">
+                    <div class="timeline-date">${item.date}</div>
+                    <div class="timeline-content"><img src="${item.image}"><p>${item.caption}</p></div>
+                </div>`;
         });
     }
 
     function renderTrivia() {
         const container = document.getElementById("trivia-container");
-        let buttonsHTML = triviaData.options.map((opt) => 
-            `<button onclick="handleTriviaAnswer(${opt.isCorrect})">${opt.text}</button>`
-        ).join('');
-
-        container.innerHTML = `
-            <p id="trivia-question" style="font-size: 20px; font-weight: bold;">${triviaData.question}</p>
-            <div class="trivia-options">${buttonsHTML}</div>
-            <p id="trivia-result" style="display:none; margin-top: 15px; font-weight:bold;"></p>
-        `;
+        const btns = triviaData.options.map(opt => `<button onclick="handleTriviaAnswer(${opt.isCorrect})">${opt.text}</button>`).join('');
+        container.innerHTML = `<p style="font-size: 18px; font-weight: bold;">${triviaData.question}</p><div class="trivia-options">${btns}</div>`;
     }
 
-    // --- TRIVIA LOGIC (Upgraded) ---
-    window.handleTriviaAnswer = function(isCorrect) {
-        if (isCorrect) {
-            showMessage(triviaData.successMessage);
-        } else {
-            showMessage(triviaData.failMessage);
-        }
-    };
+    window.handleTriviaAnswer = (isCorrect) => showMessage(isCorrect ? triviaData.successMessage : triviaData.failMessage);
 
-    // --- FLOWER GARDEN ANIMATION LOGIC (Upgraded) ---
+    // --- NEW RENDERERS ---
+
+    function renderEpisodes() {
+        const container = document.getElementById("episodes-container");
+        episodesData.forEach(ep => {
+            container.innerHTML += `
+                <div class="episode-card" onclick="showMessage('Now Playing: ${ep.title}\\n\\nJust kidding, we have to live this one out first! ❤️')">
+                    <img src="${ep.image}" class="episode-img">
+                    <div class="episode-info">
+                        <h4>${ep.title}</h4>
+                        <span>${ep.duration}</span>
+                        <p>${ep.description}</p>
+                    </div>
+                </div>`;
+        });
+    }
+
+    function renderStats() {
+        const container = document.getElementById("stats-container");
+        [duoStats.player1, duoStats.player2].forEach(player => {
+            let statsHTML = player.stats.map(stat => `
+                <div class="stat-row">
+                    <div class="stat-label"><span>${stat.label}</span><span>${stat.value}%</span></div>
+                    <div class="stat-bar-bg"><div class="stat-bar-fill" data-value="${stat.value}" style="width: 0;"></div></div>
+                </div>
+            `).join('');
+            
+            container.innerHTML += `
+                <div class="player-card">
+                    <div class="player-header">
+                        <img src="${player.avatar}" class="player-avatar">
+                        <h3 class="player-name">${player.name}</h3>
+                    </div>
+                    ${statsHTML}
+                </div>`;
+        });
+    }
+
+    function renderCoupons() {
+        const container = document.getElementById("coupons-container");
+        container.innerHTML = ""; // Clear existing
+        couponsData.forEach(coupon => {
+            const isClaimed = localStorage.getItem(coupon.id) === "true";
+            const div = document.createElement("div");
+            div.className = `coupon ${isClaimed ? "claimed" : ""}`;
+            div.innerHTML = `<h3>${coupon.title}</h3><p>${coupon.desc}</p>`;
+            
+            if (!isClaimed) {
+                div.addEventListener("click", () => {
+                    localStorage.setItem(coupon.id, "true");
+                    showMessage(`You claimed: ${coupon.title}! 🎉\\n\\nScreenshot this and send it to me when you're ready to use it!`);
+                    renderCoupons(); // Re-render to show stamp
+                });
+            } else {
+                div.addEventListener("click", () => showMessage("You already claimed this one! 😊"));
+            }
+            container.appendChild(div);
+        });
+    }
+
+    // --- EASTER EGG LOGIC ---
+    let clickCount = 0;
+    let lastClickTime = 0;
+    const title = document.getElementById("secret-title");
+    const terminal = document.getElementById("terminal-overlay");
+    const terminalText = document.getElementById("terminal-text");
+
+    title.addEventListener("click", () => {
+        const now = new Date().getTime();
+        if (now - lastClickTime > 1500) clickCount = 0; // Reset if too slow
+        
+        clickCount++;
+        lastClickTime = now;
+
+        if (clickCount === 3) {
+            terminal.style.display = "flex";
+            runTerminalScript();
+            clickCount = 0;
+        }
+    });
+
+    // Close terminal with the green button
+    document.querySelector(".terminal-header .green").addEventListener("click", () => {
+        terminal.style.display = "none";
+        terminalText.innerHTML = "";
+    });
+
+    async function runTerminalScript() {
+        terminalText.innerHTML = "";
+        const lines = [
+            "Initializing core systems...",
+            "Loading memory_banks.bin...",
+            "Bypassing firewalls...",
+            "Access granted to Heart.exe",
+            "",
+            "Running diagnostic:",
+            "  > Cuteness Level: CRITICAL",
+            "  > Love Capacity: OVERFLOWING",
+            "",
+            "Executing main script:",
+            "  if (you == mine) {",
+            "      world.isPerfect = true;",
+            "  }",
+            "",
+            "> SYSTEM MESSAGE: I love you. Happy Valentines Day! ❤️"
+        ];
+
+        for (let i = 0; i < lines.length; i++) {
+            await typeLine(lines[i]);
+        }
+    }
+
+    function typeLine(text) {
+        return new Promise(resolve => {
+            let charIndex = 0;
+            terminalText.innerHTML += "<br>";
+            const interval = setInterval(() => {
+                if (charIndex < text.length) {
+                    terminalText.innerHTML += text.charAt(charIndex);
+                    charIndex++;
+                } else {
+                    clearInterval(interval);
+                    setTimeout(resolve, 300); // Wait slightly before next line
+                }
+            }, 30); // Typing speed
+        });
+    }
+
+    // --- FLOWER GARDEN ---
     function createGarden() {
         const garden = document.getElementById("flower-garden");
         garden.style.display = "block";
-
         const numTulips = 15; 
-        const screenWidth = window.innerWidth;
-
         for (let i = 0; i < numTulips; i++) {
             const wrapper = document.createElement("div");
             wrapper.className = "tulip-wrapper";
-            
-            const leftPos = (i / numTulips) * screenWidth + (Math.random() * 40 - 20);
             const scale = 0.6 + Math.random() * 0.6; 
             const delay = Math.random() * 1.5; 
-            
-            wrapper.style.left = `${leftPos}px`;
+            wrapper.style.left = `${(i / numTulips) * window.innerWidth + (Math.random() * 40 - 20)}px`;
             wrapper.style.transform = `scale(${scale})`;
             wrapper.style.animationDelay = `${delay}s`;
-
-            wrapper.innerHTML = `
-                <svg width="100" height="250" viewBox="0 0 100 250" style="overflow: visible;">
-                    <path d="M50,250 Q50,150 50,50" fill="none" stroke="#7CB342" stroke-width="6"/>
-                    <path d="M50,200 Q20,150 40,120 Q50,150 50,200" fill="#7CB342"/>
-                    <path d="M50,180 Q80,130 60,100 Q50,130 50,180" fill="#7CB342"/>
-                    <path d="M 25 70 C 25 110, 75 110, 75 70 L 75 30 L 60 55 L 50 20 L 40 55 L 25 30 Z" fill="#FFB7C5"/>
-                </svg>
-            `;
-
-            // Use modulo (%) to loop through your photos infinitely
-            const photoIndex = i % bloomPhotos.length;
-            
+            wrapper.innerHTML = `<svg width="100" height="250" viewBox="0 0 100 250" style="overflow: visible;"><path d="M50,250 Q50,150 50,50" fill="none" stroke="#7CB342" stroke-width="6"/><path d="M50,200 Q20,150 40,120 Q50,150 50,200" fill="#7CB342"/><path d="M50,180 Q80,130 60,100 Q50,130 50,180" fill="#7CB342"/><path d="M 25 70 C 25 110, 75 110, 75 70 L 75 30 L 60 55 L 50 20 L 40 55 L 25 30 Z" fill="#FFB7C5"/></svg>`;
             const img = document.createElement("img");
-            img.src = bloomPhotos[photoIndex]; 
+            img.src = bloomPhotos[i % bloomPhotos.length]; 
             img.className = "bloom-photo";
             img.style.animationDelay = `${delay + 0.8}s`; 
             img.style.setProperty('--rand', Math.random());
-            
             wrapper.appendChild(img);
             garden.appendChild(wrapper);
         }
