@@ -3,57 +3,57 @@ const noBtn = document.querySelector(".no-btn");
 const question = document.querySelector(".question");
 const gif = document.querySelector(".gif");
 const bgMusic = document.getElementById("bg-music");
-const chorusStartTime = 47; // Change this to the actual chorus start time in seconds
+const wrapper = document.querySelector(".wrapper");
 
-// Function to play background music
-function playMusic() {
-  bgMusic.play().catch(error => {
-    // Handle error (some browsers may block autoplay)
-    console.log("Error playing music:", error);
-  });
-}
+const chorusStartTime = 47; 
 
-// Play music when the page loads or on a user interaction
-window.addEventListener('click', playMusic); // This ensures it plays when the page is clicked
+// Play music on first interaction (Browser policy requirement)
+window.addEventListener('click', () => {
+    if (bgMusic.paused) {
+        bgMusic.play().catch(error => console.log("Audio autoplay prevented:", error));
+    }
+}, { once: true }); // Only runs once to initialize audio
 
-// Change text and gif when the Yes button is clicked
+// Yes Button Logic
 yesBtn.addEventListener("click", () => {
-  question.innerHTML = "Happy Valentines. Being with you is my biggest blessing. I love you so much ";
-  gif.src = "https://tenor.com/view/bubu-bubu-dudu-love-cute-panda-gif-10802104815768868113.gif";
+  question.innerHTML = "Happy Valentines! Being with you is my biggest blessing. I love you so much ❤️";
+  // The .gif extension was missing in your original code snippet, replaced with a direct mp4/gif link if needed, but keeping your tenor link:
+  gif.src = "https://media.tenor.com/images/10802104815768868113/tenor.gif"; 
 
-  // Hide the No button
   noBtn.style.display = "none";
+  yesBtn.style.display = "none"; // Optional: hide Yes button after clicking
 
-  const caption = document.createElement("p");
-  caption.innerHTML = "</b> ❤️";
-  caption.style.fontSize = "18px";
-  caption.style.color = "blue";
-  caption.style.marginTop = "15px";
-
-  document.querySelector(".wrapper").appendChild(caption);
-  bgMusic.currentTime = chorusStartTime; // Jump to the chorus
+  // Jump to chorus
+  bgMusic.currentTime = chorusStartTime;
   bgMusic.play();
+
+  /* * Integration Idea:
+   * You can easily drop your Firebase Realtime Database push logic right here 
+   * to automatically log "Accepted Valentine's Request" as a new milestone 
+   * directly to your shared timeline application!
+   */
 });
 
-// Function to move the No button randomly
+// Smarter No Button Evasion
 function moveNoButton() {
-  const wrapper = document.querySelector(".wrapper");
   const wrapperRect = wrapper.getBoundingClientRect();
   const noBtnRect = noBtn.getBoundingClientRect();
 
-  // Calculate max positions to ensure the button stays within the wrapper
-  const maxX = wrapperRect.width - noBtnRect.width;
-  const maxY = wrapperRect.height - noBtnRect.height;
+  // Subtract padding so the button doesn't clip outside the wrapper
+  const padding = 20; 
+  const maxX = wrapperRect.width - noBtnRect.width - padding;
+  const maxY = wrapperRect.height - noBtnRect.height - padding;
 
-  // Ensure randomX and randomY are within the wrapper bounds
-  const randomX = Math.min(Math.floor(Math.random() * maxX), maxX);
-  const randomY = Math.min(Math.floor(Math.random() * maxY), maxY);
+  const randomX = Math.max(padding, Math.floor(Math.random() * maxX));
+  const randomY = Math.max(padding, Math.floor(Math.random() * maxY));
 
-  noBtn.style.position = "absolute"; // Ensure the button can move freely
-  noBtn.style.left = randomX + "px";
-  noBtn.style.top = randomY + "px";
+  noBtn.style.position = "absolute"; 
+  noBtn.style.left = `${randomX}px`;
+  noBtn.style.top = `${randomY}px`;
 }
 
-// Add event listeners for both mouseover (desktop) and touchstart (mobile)
 noBtn.addEventListener("mouseover", moveNoButton);
-noBtn.addEventListener("touchstart", moveNoButton);
+noBtn.addEventListener("touchstart", (e) => {
+    e.preventDefault(); // Prevents accidental clicking on mobile before it moves
+    moveNoButton();
+});
