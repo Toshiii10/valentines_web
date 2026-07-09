@@ -29,14 +29,6 @@ const bloomPhotos = [
     "https://via.placeholder.com/150"
 ];
 
-// --- NEW FEATURES DATA ---
-
-const episodesData = [
-    { title: "Pilot: The First Message", duration: "24m", image: "https://via.placeholder.com/300x150", description: "Where it all began. Two strangers realize they have way too much in common." },
-    { title: "The Coffee Incident", duration: "45m", image: "https://via.placeholder.com/300x150", description: "Our first official hangout. Sparks fly, and plenty of laughs are shared." },
-    { title: "Season Finale: Falling Hard", duration: "1h 30m", image: "https://via.placeholder.com/300x150", description: "The moment we knew this was something truly special. To be continued..." }
-];
-
 const duoStats = {
     player1: {
         name: "You", // Replace with her name
