@@ -1,4 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
+    
+    // Register Service Worker for the PWA
+    if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("sw.js")
+            .then(() => console.log("Service Worker Registered!"))
+            .catch(err => console.log("Service Worker Failed", err));
+    }
+
     const yesBtn = document.querySelector(".yes-btn");
     const noBtn = document.querySelector(".no-btn");
     const question = document.querySelector(".question");
@@ -14,7 +22,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // Initialize UI
     renderTimeline();
     renderTrivia();
-    renderEpisodes();
     renderStats();
     renderCoupons();
 
@@ -82,11 +89,12 @@ document.addEventListener("DOMContentLoaded", () => {
         modalOverlay.classList.add("show");
     }
 
-    // --- LEGACY RENDERERS ---
+    // --- ENVELOPES ---
     document.querySelectorAll('.envelope').forEach(env => {
         env.addEventListener('click', (e) => showMessage(envelopeData[e.currentTarget.getAttribute('data-mood')]));
     });
 
+    // --- RENDERERS ---
     function renderTimeline() {
         const container = document.getElementById("timeline-container");
         timelineData.forEach(item => {
@@ -105,23 +113,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     window.handleTriviaAnswer = (isCorrect) => showMessage(isCorrect ? triviaData.successMessage : triviaData.failMessage);
-
-    // --- NEW RENDERERS ---
-
-    function renderEpisodes() {
-        const container = document.getElementById("episodes-container");
-        episodesData.forEach(ep => {
-            container.innerHTML += `
-                <div class="episode-card" onclick="showMessage('Now Playing: ${ep.title}\\n\\nJust kidding, we have to live this one out first! ❤️')">
-                    <img src="${ep.image}" class="episode-img">
-                    <div class="episode-info">
-                        <h4>${ep.title}</h4>
-                        <span>${ep.duration}</span>
-                        <p>${ep.description}</p>
-                    </div>
-                </div>`;
-        });
-    }
 
     function renderStats() {
         const container = document.getElementById("stats-container");
@@ -146,7 +137,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function renderCoupons() {
         const container = document.getElementById("coupons-container");
-        container.innerHTML = ""; // Clear existing
+        container.innerHTML = ""; 
+        
         couponsData.forEach(coupon => {
             const isClaimed = localStorage.getItem(coupon.id) === "true";
             const div = document.createElement("div");
@@ -157,12 +149,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 div.addEventListener("click", () => {
                     localStorage.setItem(coupon.id, "true");
                     showMessage(`You claimed: ${coupon.title}! 🎉\n\nScreenshot this and send it to me when you're ready to use it!`);
-                    renderCoupons(); // Re-render to show stamp
+                    renderCoupons(); 
                 });
             } else {
                 div.addEventListener("click", () => {
                     if (window.confirm(`Do you want to unclaim "${coupon.title}" and put it back in the book?`)) {
-                        localStorage.removeItem(coupon.id);
+                        localStorage.removeItem(coupon.id); 
                         renderCoupons(); 
                     }
                 });
@@ -180,7 +172,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     title.addEventListener("click", () => {
         const now = new Date().getTime();
-        if (now - lastClickTime > 1500) clickCount = 0; // Reset if too slow
+        if (now - lastClickTime > 1500) clickCount = 0; 
         
         clickCount++;
         lastClickTime = now;
@@ -192,7 +184,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // Close terminal with the green button
     document.querySelector(".terminal-header .green").addEventListener("click", () => {
         terminal.style.display = "none";
         terminalText.innerHTML = "";
@@ -233,9 +224,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     charIndex++;
                 } else {
                     clearInterval(interval);
-                    setTimeout(resolve, 300); // Wait slightly before next line
+                    setTimeout(resolve, 300); 
                 }
-            }, 30); // Typing speed
+            }, 30); 
         });
     }
 
