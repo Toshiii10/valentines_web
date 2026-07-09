@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Happy Valentines Day!</title>
   <link rel="stylesheet" href="style.css" />
+  
+  <!-- PWA Links -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#ff6b81">
+  <link rel="apple-touch-icon" href="icon-192.png">
 </head>
 <body>
   <audio id="bg-music" loop>
@@ -13,6 +18,7 @@
 
   <div id="flower-garden"></div>
 
+  <!-- Custom Animated Modal -->
   <div id="custom-modal" class="modal-overlay">
     <div class="modal-box">
       <span class="close-btn">&times;</span>
@@ -20,6 +26,7 @@
     </div>
   </div>
 
+  <!-- Developer Easter Egg Terminal -->
   <div id="terminal-overlay">
     <div class="terminal-window">
         <div class="terminal-header">
@@ -30,6 +37,7 @@
     </div>
   </div>
 
+  <!-- Proposal Section -->
   <div class="wrapper" id="proposal-section">
     <h2 class="question">Will you be my valentines?</h2>
     <img class="gif" id="main-gif" alt="cute bear gif" src="https://tenor.com/view/dudu-wearing-glasses-standing-nice-cute-funny-bear-gif-3741906134197657056.gif" />
@@ -39,13 +47,15 @@
     </div>
   </div>
 
+  <!-- Unlocked App -->
   <div id="unlocked-content" style="display: none;">
     
+    <!-- Easter Egg Trigger: Click this 3 times -->
     <h1 id="secret-title">Happy Valentines Day! ❤️</h1>
 
+    <!-- Upgraded Navigation (Episodes Removed) -->
     <nav class="app-nav">
       <button class="nav-btn active" data-target="love-letter">💌 Letter</button>
-      <button class="nav-btn" data-target="episodes">🎬 Episodes</button>
       <button class="nav-btn" data-target="stats">🎮 Stats</button>
       <button class="nav-btn" data-target="coupons">🎟️ Coupons</button>
       <button class="nav-btn" data-target="envelopes">📬 Open When</button>
@@ -82,12 +92,6 @@
       <section id="trivia" class="panel">
         <h2>Relationship Trivia! 🕵️‍♀️</h2>
         <div id="trivia-container" class="trivia-card"></div>
-      </section>
-
-      <section id="episodes" class="panel">
-        <h2 style="margin-bottom: 5px;">When Love is a Losing Bet</h2>
-        <p style="color:#777; margin-top:0;">Season 1</p>
-        <div class="episodes-carousel" id="episodes-container"></div>
       </section>
 
       <section id="stats" class="panel">
