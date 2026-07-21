@@ -1,5 +1,13 @@
 /* Core Styles */
-body { margin: 0; padding: 0; font-family: 'Poppins', Arial, sans-serif; background: linear-gradient(135deg, #FFE4E1, #FFC0CB); color: #333; overflow-x: hidden; }
+body { 
+    margin: 0; 
+    padding: 0; 
+    font-family: 'Poppins', Arial, sans-serif; 
+    background: linear-gradient(135deg, #FFE4E1, #FFC0CB); 
+    color: #333; 
+    -webkit-tap-highlight-color: transparent; /* Kills the blue tap flash */
+    touch-action: manipulation; /* Prevents double-tap-to-zoom delays */
+    overflow-x: hidden; }
 .wrapper { position: relative; width: 90%; max-width: 500px; min-height: 400px; text-align: center; background: white; padding: 40px 30px; border-radius: 15px; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); margin: 10vh auto; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 10; box-sizing: border-box; }
 .question { font-size: 26px; font-weight: bold; margin-bottom: 20px; }
 .gif { max-width: 100%; height: auto; margin-bottom: 25px; border-radius: 10px; }
