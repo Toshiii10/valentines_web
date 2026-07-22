@@ -84,9 +84,19 @@
         </div>
       </section>
 
-      <section id="memories" class="panel">
-        <h2>Our Favorite Moments</h2>
-        <div class="timeline" id="timeline-container"></div>
+     <section id="memories" class="panel">
+        <h2>Our Monthly Memories 📸</h2>
+        <div class="polaroid-container">
+          <!-- Message that shows when the deck is empty -->
+          <div class="empty-deck-msg">
+             <p>You swiped through all of them! ❤️</p>
+             <button onclick="window.renderPolaroids()" style="padding: 8px 20px; font-size: 14px;">Shuffle & Reset</button>
+          </div>
+          
+          <!-- The stack of cards -->
+          <div id="polaroid-deck"></div>
+        </div>
+        <p class="swipe-hint">Swipe cards left or right 👈👉</p>
       </section>
 
       <section id="trivia" class="panel">
