@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const chorusStartTime = 47; 
 
     // Initialize UI
-    renderTimeline();
+    renderPolaroids();
     renderTrivia();
     renderStats();
     renderCoupons();
@@ -94,16 +94,85 @@ document.addEventListener("DOMContentLoaded", () => {
         env.addEventListener('click', (e) => showMessage(envelopeData[e.currentTarget.getAttribute('data-mood')]));
     });
 
-    // --- RENDERERS ---
-    function renderTimeline() {
-        const container = document.getElementById("timeline-container");
-        timelineData.forEach(item => {
-            container.innerHTML += `
-                <div class="timeline-item">
-                    <div class="timeline-date">${item.date}</div>
-                    <div class="timeline-content"><img src="${item.image}" loading="lazy"><p>${item.caption}</p></div>
-                </div>`;
+    // --- POLAROID RENDERER & SWIPE LOGIC ---
+    window.renderPolaroids = function() {
+        const deck = document.getElementById("polaroid-deck");
+        deck.innerHTML = "";
+        
+        // Reverse the array so the first month is physically on top of the DOM stack
+        const reversedData = [...timelineData].reverse();
+
+        reversedData.forEach((item, index) => {
+            const card = document.createElement("div");
+            card.className = "polaroid-card pop-in";
+            
+            // Give each card a slight, messy rotation to look like a real stack of photos
+            const baseRotation = (Math.random() * 6 - 3); 
+            card.style.transform = `rotate(${baseRotation}deg)`;
+            card.style.animationDelay = `${index * 0.1}s`; 
+            card.dataset.baseRotation = baseRotation; // Save it to snap back to
+
+            card.innerHTML = `
+                <img class="polaroid-image" src="${item.image}" loading="lazy">
+                <div class="polaroid-date">${item.date}</div>
+            `;
+            
+            setupSwipeLogic(card);
+            deck.appendChild(card);
         });
+    };
+
+    function setupSwipeLogic(card) {
+        let startX = 0;
+        let currentX = 0;
+        let isDragging = false;
+        
+        // Unify touch and mouse events
+        const startDrag = (x) => {
+            startX = x;
+            isDragging = true;
+            card.style.transition = 'none'; // Disable transition so it sticks to her finger
+        };
+
+        const moveDrag = (x) => {
+            if (!isDragging) return;
+            currentX = x - startX;
+            // Slightly tilt the card as she pulls it left or right
+            const dynamicRotation = parseFloat(card.dataset.baseRotation) + (currentX * 0.1);
+            card.style.transform = `translateX(${currentX}px) rotate(${dynamicRotation}deg)`;
+        };
+
+        const endDrag = () => {
+            if (!isDragging) return;
+            isDragging = false;
+            card.style.transition = 'transform 0.3s ease-out'; // Turn smooth movement back on
+
+            const swipeThreshold = window.innerWidth * 0.25; // Must drag 25% of the screen to trigger
+
+            if (currentX > swipeThreshold) {
+                // Swiped Right
+                card.classList.add('swipe-right');
+                setTimeout(() => card.remove(), 400); // Wait for animation, then delete
+            } else if (currentX < -swipeThreshold) {
+                // Swiped Left
+                card.classList.add('swipe-left');
+                setTimeout(() => card.remove(), 400);
+            } else {
+                // Didn't drag far enough, snap back to the center stack
+                card.style.transform = `rotate(${card.dataset.baseRotation}deg)`;
+            }
+            currentX = 0;
+        };
+
+        // Mobile Touch Listeners
+        card.addEventListener('touchstart', e => startDrag(e.touches[0].clientX));
+        card.addEventListener('touchmove', e => moveDrag(e.touches[0].clientX));
+        card.addEventListener('touchend', endDrag);
+
+        // Desktop Mouse Listeners
+        card.addEventListener('mousedown', e => startDrag(e.clientX));
+        document.addEventListener('mousemove', e => moveDrag(e.clientX));
+        document.addEventListener('mouseup', endDrag);
     }
 
     function renderTrivia() {
@@ -230,7 +299,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-// --- FLOWER GARDEN ---
+    // --- FLOWER GARDEN ---
     function createGarden() {
         const garden = document.getElementById("flower-garden");
         garden.style.display = "block";
