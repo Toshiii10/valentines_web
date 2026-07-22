@@ -1,4 +1,4 @@
-const CACHE_NAME = "valentine-app-v1";
+const CACHE_NAME = "valentine-app-v2";
 const assetsToCache = [
   "./",
   "./index.html",
@@ -7,30 +7,19 @@ const assetsToCache = [
   "./data.js",
   "./icon-192.png",
   "./icon-512.png",
-  "./YOUR_AUDIO_FILE.mp3" // Change this to your actual song file name!
+  "./YOUR_AUDIO_FILE.mp3"
 ];
 
-// Install the service worker and cache the files
 self.addEventListener("install", event => {
+  self.skipWaiting(); // Forces the new service worker to activate immediately
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache => {
-      console.log("Caching app assets");
       return cache.addAll(assetsToCache);
     })
   );
 });
 
-// Fetch files from the cache if offline
-self.addEventListener("fetch", event => {
-  event.respondWith(
-    caches.match(event.request).then(response => {
-      // Return the cached file if found, otherwise fetch from the network
-      return response || fetch(event.request);
-    })
-  );
-});
-
-// Activate and clean up old caches
+// Stale-While-Revalidate Pattern
 self.addEventListener("fetch", event => {
   event.respondWith(
     caches.match(event.request).then(cachedResponse => {
@@ -39,8 +28,24 @@ self.addEventListener("fetch", event => {
           cache.put(event.request, networkResponse.clone());
         });
         return networkResponse;
+      }).catch(() => {
+        // Silently fail if offline, it will just use the cachedResponse
       });
       return cachedResponse || fetchPromise;
+    })
+  );
+});
+
+self.addEventListener("activate", event => {
+  event.waitUntil(
+    caches.keys().then(cacheNames => {
+      return Promise.all(
+        cacheNames.map(cache => {
+          if (cache !== CACHE_NAME) {
+            return caches.delete(cache);
+          }
+        })
+      );
     })
   );
 });
