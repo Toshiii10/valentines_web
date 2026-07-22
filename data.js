@@ -1,8 +1,10 @@
 // data.js - Stores all your personal content
 
 const timelineData = [
-    { date: "October 14, 2023", image: "https://via.placeholder.com/300x200", caption: "The day we went to that amazing cafe. I couldn't stop looking at you." },
-    { date: "December 25, 2023", image: "https://via.placeholder.com/300x200", caption: "Our first Christmas together! The matching sweaters were a hit." }
+    { date: "February 2026", image: "https://via.placeholder.com/300x300" },
+    { date: "April 2026", image: "https://via.placeholder.com/300x300" },
+    { date: "May 2026", image: "https://via.placeholder.com/300x300" },
+    { date: "June 2026", image: "https://via.placeholder.com/300x300" },
 ];
 
 const triviaData = {
