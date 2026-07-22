@@ -230,22 +230,36 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // --- FLOWER GARDEN ---
-function createGarden() {
+// --- FLOWER GARDEN ---
+    function createGarden() {
         const garden = document.getElementById("flower-garden");
         garden.style.display = "block";
         const numTulips = 15; 
         
-        // NEW: Create a fragment to hold the flowers
-        const fragment = document.createDocumentFragment();
+        // Invisible container to build the flowers efficiently
+        const fragment = document.createDocumentFragment(); 
         
         for (let i = 0; i < numTulips; i++) {
             const wrapper = document.createElement("div");
-            // ... (keep all your existing tulip styling/SVG code here) ...
-            fragment.appendChild(wrapper); // Add to fragment, not the DOM
+            wrapper.className = "tulip-wrapper";
+            const scale = 0.6 + Math.random() * 0.6; 
+            const delay = Math.random() * 1.5; 
+            wrapper.style.left = `${(i / numTulips) * window.innerWidth + (Math.random() * 40 - 20)}px`;
+            wrapper.style.transform = `scale(${scale})`;
+            wrapper.style.animationDelay = `${delay}s`;
+            wrapper.innerHTML = `<svg width="100" height="250" viewBox="0 0 100 250" style="overflow: visible;"><path d="M50,250 Q50,150 50,50" fill="none" stroke="#7CB342" stroke-width="6"/><path d="M50,200 Q20,150 40,120 Q50,150 50,200" fill="#7CB342"/><path d="M50,180 Q80,130 60,100 Q50,130 50,180" fill="#7CB342"/><path d="M 25 70 C 25 110, 75 110, 75 70 L 75 30 L 60 55 L 50 20 L 40 55 L 25 30 Z" fill="#FFB7C5"/></svg>`;
+            
+            const img = document.createElement("img");
+            img.src = bloomPhotos[i % bloomPhotos.length]; 
+            img.className = "bloom-photo";
+            img.style.animationDelay = `${delay + 0.8}s`; 
+            img.style.setProperty('--rand', Math.random());
+            
+            wrapper.appendChild(img);
+            fragment.appendChild(wrapper); // Attach to fragment, not the DOM
         }
         
-        // Append all at once!
+        // Paint them all to the screen at once
         garden.appendChild(fragment);
     }
 });
