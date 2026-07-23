@@ -72,5 +72,7 @@ function setupSwipeLogic(card) {
     document.addEventListener('mouseup', endDrag);
 }
 
-// Render the deck immediately when the file loads
-renderPolaroids();
+// Wait for the HTML container to exist before rendering the photos!
+document.addEventListener("DOMContentLoaded", () => {
+    renderPolaroids();
+});
