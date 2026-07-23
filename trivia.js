@@ -34,5 +34,7 @@ window.handleTriviaAnswer = function(isCorrect) {
     }
 };
 
-// Render the first question immediately when the file loads
-renderTrivia();
+// Wait for the HTML container to exist before rendering the questions!
+document.addEventListener("DOMContentLoaded", () => {
+    renderTrivia();
+});
