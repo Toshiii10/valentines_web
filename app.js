@@ -94,8 +94,8 @@ document.addEventListener("DOMContentLoaded", () => {
         env.addEventListener('click', (e) => showMessage(envelopeData[e.currentTarget.getAttribute('data-mood')]));
     });
 
-    // --- POLAROID RENDERER & SWIPE LOGIC ---
-    window.renderPolaroids = function() {
+ // --- POLAROID RENDERER & SWIPE LOGIC ---
+    function renderPolaroids() {
         const deck = document.getElementById("polaroid-deck");
         deck.innerHTML = "";
         
@@ -120,7 +120,10 @@ document.addEventListener("DOMContentLoaded", () => {
             setupSwipeLogic(card);
             deck.appendChild(card);
         });
-    };
+    }
+    
+    // This makes sure the "Shuffle & Reset" HTML button can still trigger the function
+    window.renderPolaroids = renderPolaroids;
 
     function setupSwipeLogic(card) {
         let startX = 0;
