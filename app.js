@@ -178,13 +178,40 @@ document.addEventListener("DOMContentLoaded", () => {
         document.addEventListener('mouseup', endDrag);
     }
 
-    function renderTrivia() {
-        const container = document.getElementById("trivia-container");
-        const btns = triviaData.options.map(opt => `<button onclick="handleTriviaAnswer(${opt.isCorrect})">${opt.text}</button>`).join('');
-        container.innerHTML = `<p style="font-size: 18px; font-weight: bold;">${triviaData.question}</p><div class="trivia-options">${btns}</div>`;
-    }
+   // --- TRIVIA RENDERER LOGIC ---
+    let currentTriviaIndex = 0;
 
-    window.handleTriviaAnswer = (isCorrect) => showMessage(isCorrect ? triviaData.successMessage : triviaData.failMessage);
+    window.renderTrivia = function() {
+        const container = document.getElementById("trivia-container");
+        const currentQ = triviaData[currentTriviaIndex];
+        
+        const btns = currentQ.options.map(opt => `<button onclick="handleTriviaAnswer(${opt.isCorrect})">${opt.text}</button>`).join('');
+        
+        container.innerHTML = `
+            <p style="font-size: 13px; color: #ff6b81; font-weight: bold; margin-bottom: 5px;">Question ${currentTriviaIndex + 1} of ${triviaData.length}</p>
+            <p style="font-size: 18px; font-weight: bold; margin-top: 0;">${currentQ.question}</p>
+            <div class="trivia-options">${btns}</div>
+        `;
+    };
+
+    window.handleTriviaAnswer = (isCorrect) => {
+        const currentQ = triviaData[currentTriviaIndex];
+        if (isCorrect) {
+            showMessage(currentQ.successMessage);
+            
+            // If there are more questions, load the next one behind the modal
+            if (currentTriviaIndex < triviaData.length - 1) {
+                currentTriviaIndex++;
+                renderTrivia(); 
+            } else {
+                // She finished the game!
+                setTimeout(() => showMessage("Wow! 100% Score! You really do know me perfectly. 🥰🏆"), 1500);
+            }
+        } else {
+            // Wrong answer, stay on the same question so she can try again
+            showMessage(currentQ.failMessage);
+        }
+    };
 
     function renderStats() {
         const container = document.getElementById("stats-container");
