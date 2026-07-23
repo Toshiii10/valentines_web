@@ -1,10 +1,12 @@
-const CACHE_NAME = "valentine-app-v2";
+const CACHE_NAME = "valentine-app-v3"; // Bumped to v3 to force the browser to update!
 const assetsToCache = [
   "./",
   "./index.html",
   "./style.css",
   "./app.js",
   "./data.js",
+  "./polaroids.js", // <-- ADDED THIS
+  "./trivia.js",    // <-- ADDED THIS
   "./icon-192.png",
   "./icon-512.png",
   "./YOUR_AUDIO_FILE.mp3"
